@@ -7,7 +7,7 @@ public class PlayerObject : MonoBehaviour {
     public int Id;
 
     private List<PuzzleFace> _faces = new List<PuzzleFace>();
-    public PuzzleFace LastActivatedFace;
+    public  int  LastActivatedFace { get; private set; }
     public bool IsActive { get; private set; }
 
     public int GetFacesCount()
@@ -21,10 +21,22 @@ public class PlayerObject : MonoBehaviour {
     public void ActivateFace(int faceNum,int piece)
     {
         IsActive = true;
+        LastActivatedFace = faceNum;
         GetFace(faceNum).ActivatePiece(piece);
     }
+
+    public void DeactivateAllFaces()
+    {
+        IsActive = false;
+        foreach (var facc in _faces)
+        {
+            facc.TurnOffAll();
+        }
+    }
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+	    LastActivatedFace = -1;
         foreach (Transform child in transform)
         {
 

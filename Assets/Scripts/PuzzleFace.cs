@@ -18,6 +18,16 @@ public class PuzzleFace : MonoBehaviour
         ElementObjects[numbe].DeffaultOn();
         IsActivated = true;
     }
+
+    public void TurnOffAll()
+    {
+        for (int i = 0; i < ElementObjects.Count; i++)
+        {
+            IsActivated = false;
+            ElementObjects[i].IsOn = false;
+            ElementObjects[i].DeffaultOff();
+        }
+    }
     void Start()
     {
 
