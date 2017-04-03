@@ -8,27 +8,21 @@ public class Element : MonoBehaviour
 {
 
 
-    public Element(GameObject obj)
-    {
-        Position = obj.transform.position;
-        IsOn = false;
-    }
-    private Vector3 Position;
-    private bool IsOn;
 
+    private Vector3 Position;
+    public bool IsOn { get; set;}
+    public int Id { get; private set; }
     public void OnCompleteOn()
     {
         IsOn = true;
-        Debug.Log("off");
     }
     public void OnCompleteOff()
     {
         IsOn = false;
-        Debug.Log("off");
     }
     public void DeffaultOn()
     {
-       iTween.MoveBy(gameObject, iTween.Hash("x", -0.01f, "easeType", "easeInOutExpo", "loopType", "none", "delay", 0, "oncomplete", "OnCompleteOn", "oncompletetarget", gameObject));
+       iTween.ColorTo(gameObject, iTween.Hash("r", 1f, "g", 0f, "b", 0f, "easeType", "easeInOutExpo", "loopType", "none", "delay", 0, "oncomplete", "OnCompleteOn", "oncompletetarget", gameObject));
 
 
     }
@@ -40,7 +34,11 @@ public class Element : MonoBehaviour
 
     }
 
-
+    public void Init(int id )
+    {
+        IsOn = false;
+        Id = id;
+    }
     // Use this for initialization
     void Start()
     {

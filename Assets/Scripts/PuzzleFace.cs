@@ -11,8 +11,13 @@ public class PuzzleFace : MonoBehaviour
     // Use this for initialization
     private int _numberOfElements;
     private List<Element> ElementObjects = new List<Element>();
-
-
+    public bool IsActivated { get; private set; }
+    public void ActivatePiece (int numbe)
+    {
+        ElementObjects[numbe].IsOn = true;
+        ElementObjects[numbe].DeffaultOn();
+        IsActivated = true;
+    }
     void Start()
     {
 
@@ -24,7 +29,7 @@ public class PuzzleFace : MonoBehaviour
         _numberOfElements = ElementObjects.Count;
         for (int i = 0; i < ElementObjects.Count; i++)
         {
-            ElementObjects[i].DeffaultOn();
+            ElementObjects[i].Init(i);
         }
 
     }
