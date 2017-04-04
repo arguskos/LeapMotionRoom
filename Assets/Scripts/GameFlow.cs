@@ -27,6 +27,7 @@ public class GameFlow : MonoBehaviour
     public PuzzleFace PreviewPie;
     public PuzzleFace DebugPie;
     public SoundManager SoundManager;
+    private bool _isBlocked = false;
 
     private void ActivatePlayerFaces(PlayerObject player, int item)
     {
@@ -83,64 +84,79 @@ public class GameFlow : MonoBehaviour
     void Update()
     {
         //Play selection sound on keydown
-        if (Input.anyKeyDown)
+        if (!_isBlocked)
         {
-            SoundManager.PlaySound("Selection");
-        }
+            if (Input.anyKeyDown)
+            {
+                SoundManager.PlaySound("Selection");
+            }
 
-        //Add number to inputted array if it isn't full yet
-        if (ArrayInputed.Count <= NumbersToGuess)
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
+            //Add number to inputted array if it isn't full yet
+            if (ArrayInputed.Count <= NumbersToGuess)
             {
-                ArrayInputed.Add(0);
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    ArrayInputed.Add(0);
+                    Check();
+                }
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    ArrayInputed.Add(1);
+                    Check();
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    ArrayInputed.Add(2);
+                    Check();
+                }
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    ArrayInputed.Add(3);
+                    Check();
+                }
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    ArrayInputed.Add(4);
+                    Check();
+                }
+                if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    ArrayInputed.Add(5);
+                    Check();
+                }
             }
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                ArrayInputed.Add(1);
-            }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ArrayInputed.Add(2);
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                ArrayInputed.Add(3);
-            }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                ArrayInputed.Add(4);
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                ArrayInputed.Add(5);
-            }
-        }
 
-        //Remove from inputted array on keyup
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            ArrayInputed.Remove(0);
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            ArrayInputed.Remove(1);
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            ArrayInputed.Remove(2);
-        }
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            ArrayInputed.Remove(3);
-        }
-        if (Input.GetKeyUp(KeyCode.T))
-        {
-            ArrayInputed.Remove(4);
-        }
-        if (Input.GetKeyUp(KeyCode.Y))
-        {
-            ArrayInputed.Remove(5);
+            //Remove from inputted array on keyup
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                ArrayInputed.Remove(0);
+                Check();
+            }
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                ArrayInputed.Remove(1);
+                Check();
+            }
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                ArrayInputed.Remove(2);
+                Check();
+            }
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                ArrayInputed.Remove(3);
+                Check();
+            }
+            if (Input.GetKeyUp(KeyCode.T))
+            {
+                ArrayInputed.Remove(4);
+                Check();
+            }
+            if (Input.GetKeyUp(KeyCode.Y))
+            {
+                ArrayInputed.Remove(5);
+                Check();
+            }
         }
         if (PreviewPie)
 
@@ -164,7 +180,7 @@ public class GameFlow : MonoBehaviour
             PreviewPie.TurnOffAll();
         }*/
         //Check for solution
-        Check();
+        
 
         //Update UI Score
         TXTScore.GetComponent<Text>().text = Score.ToString();
@@ -309,13 +325,11 @@ public class GameFlow : MonoBehaviour
             {
                 //If correct add score
                 Guessed();
-                Score += 150;
             }
             else
             {
                 //If wrong subtract score
                 NotGuessed();
-                Score -= 50;
             }
             Debug.Log(outer);
             Debug.Log(outer2);
@@ -326,8 +340,11 @@ public class GameFlow : MonoBehaviour
     public void Guessed()
     {
         Debug.Log("right");
+        Score += 150;
+
         SoundManager.PlaySound("Progress_002");
         StartCoroutine(Clear());
+        _isBlocked = true;
     }
 
     //Clear
@@ -340,15 +357,22 @@ public class GameFlow : MonoBehaviour
         ArrayInputed.Clear();
         DebugPie.TurnOffAll();
         PreviewPie.TurnOffAll();
+
         yield return new WaitForSeconds(2);
         GenerateSequenece();
+        _isBlocked = false;
     }
 
     //Wrong
     public void NotGuessed()
     {
+        _isBlocked = true;
         Debug.Log("wrong");
+        Score -= 50;
+
         SoundManager.PlaySound("Wrong");
         StartCoroutine(Clear());
+        
+
     }
 }
