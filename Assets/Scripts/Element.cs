@@ -10,10 +10,10 @@ public class Element : MonoBehaviour
     public bool IsOn { get; set;}
     private float _delay;
     private Color _color;
+    private Color _originalcolor;
     private Vector3 _scale;
     public int Id { get; private set; }
-    public bool IsLoading = true;
-    private float _loadmultiplier;
+    public bool IsPreview;
 
     public void OnCompleteOn()
     {
@@ -24,40 +24,50 @@ public class Element : MonoBehaviour
         IsOn = false;
     }
 
+    //On behaviour
     public void DeffaultOn()
     {
         var scalemultiplier = 2.0f;
         var newscale = new Vector3(_scale.x * scalemultiplier, _scale.y * scalemultiplier, _scale.z);
-        var colormultiplier = 0.5f;
-        iTween.ColorTo(gameObject, colormultiplier*_color,_delay/4);
-        iTween.ScaleTo(gameObject, newscale, _delay);
+        iTween.ColorTo(gameObject, _color,_delay);
+        iTween.ScaleTo(gameObject, newscale, _delay*0.75f);
 
     }
 
+    //Off behaviour
     public void DeffaultOff()
     {
-        iTween.ColorTo(gameObject, _color, _delay/4 );
-        iTween.ScaleTo(gameObject, _scale, _delay);
+        iTween.ColorTo(gameObject, _originalcolor, _delay/4 );
+        iTween.ScaleTo(gameObject, _scale, _delay/4);
     }
 
     public void Init(int id )
     {
+        IsPreview = false;
         IsOn = false;
         Id = id;
-        _color = GetComponent<Renderer>().material.color;
-        _delay = 0.25f;
+        _originalcolor = GetComponent<Renderer>().material.color;
+        _delay = 0.1f + (Id * 0.1f);
         _scale = transform.localScale;
     }
     // Use this for initialization
     void Start()
     {
-     
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //Setup difference between general elements and the preview selection element
+        if (IsPreview == true)
+        {
+            _color = _originalcolor * 0.0f;
+            _delay = 1.0f;
+        }
+        else
+        {
+            _color = _originalcolor * 0.5f;
+        }
     }
 }

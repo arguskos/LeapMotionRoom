@@ -6,10 +6,100 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: B_PuzzleShape_05_Root
+    100004: B_Socket013
+    100006: B_Socket014
+    100008: B_Socket015
+    100010: B_Socket016
+    100012: B_Socket017
+    100014: B_Socket018
+    100016: B_Socket019
+    100018: B_Socket020
+    100020: B_Socket021
+    100022: B_Socket022
+    100024: B_Socket023
+    100026: B_Socket024
+    100028: PuzzleShape_05
+    100030: Socket012
+    100032: Socket013
+    100034: Socket014
+    100036: Socket015
+    100038: Socket016
+    100040: Socket017
+    100042: Socket018
+    100044: Socket019
+    100046: Socket020
+    100048: Socket021
+    100050: Socket022
+    100052: Socket023
     400000: //RootNode
+    400002: B_PuzzleShape_05_Root
+    400004: B_Socket013
+    400006: B_Socket014
+    400008: B_Socket015
+    400010: B_Socket016
+    400012: B_Socket017
+    400014: B_Socket018
+    400016: B_Socket019
+    400018: B_Socket020
+    400020: B_Socket021
+    400022: B_Socket022
+    400024: B_Socket023
+    400026: B_Socket024
+    400028: PuzzleShape_05
+    400030: Socket012
+    400032: Socket013
+    400034: Socket014
+    400036: Socket015
+    400038: Socket016
+    400040: Socket017
+    400042: Socket018
+    400044: Socket019
+    400046: Socket020
+    400048: Socket021
+    400050: Socket022
+    400052: Socket023
     2300000: //RootNode
+    2300002: PuzzleShape_05
+    2300004: Socket012
+    2300006: Socket013
+    2300008: Socket014
+    2300010: Socket015
+    2300012: Socket016
+    2300014: Socket017
+    2300016: Socket018
+    2300018: Socket019
+    2300020: Socket020
+    2300022: Socket021
+    2300024: Socket022
+    2300026: Socket023
     3300000: //RootNode
+    3300002: PuzzleShape_05
+    3300004: Socket012
+    3300006: Socket013
+    3300008: Socket014
+    3300010: Socket015
+    3300012: Socket016
+    3300014: Socket017
+    3300016: Socket018
+    3300018: Socket019
+    3300020: Socket020
+    3300022: Socket021
+    3300024: Socket022
+    3300026: Socket023
     4300000: PuzzleShape_05
+    4300002: Socket012
+    4300004: Socket013
+    4300006: Socket014
+    4300008: Socket015
+    4300010: Socket016
+    4300012: Socket017
+    4300014: Socket018
+    4300016: Socket019
+    4300018: Socket020
+    4300020: Socket021
+    4300022: Socket022
+    4300024: Socket023
   materials:
     importMaterials: 0
     materialName: 0

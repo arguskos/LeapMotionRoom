@@ -54,7 +54,7 @@ public class PlayerObject : MonoBehaviour {
         Debug.Log(transform.childCount);
         foreach (Transform face in transform)
         {
-
+            
             if (face.gameObject.GetComponent<PuzzleFace>())
             {
                 face.gameObject.GetComponent<PuzzleFace>().Init();

@@ -12,7 +12,6 @@ public class PuzzleFace : MonoBehaviour
     private int _numberOfElements;
     public List<Element> ElementObjects = new List<Element>();
     public bool IsActivated { get; private set; }
-
     public void ActivatePiece (int numbe)
     {
         ElementObjects[numbe].IsOn = true;
@@ -68,11 +67,21 @@ public class PuzzleFace : MonoBehaviour
             ElementObjects.Add(child.gameObject.GetComponent<Element>());
         }
         _numberOfElements = ElementObjects.Count;
-        for (int i = 0; i < ElementObjects.Count; i++)
+        for (int i = 0; i < _numberOfElements; i++)
         {
             ElementObjects[i].Init(i);
         }
     }
+
+
+    public void SetIsPreview(bool ispreview)
+    {
+        for (int i = 0; i < _numberOfElements; i++)
+        {
+            ElementObjects[i].IsPreview = ispreview;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
