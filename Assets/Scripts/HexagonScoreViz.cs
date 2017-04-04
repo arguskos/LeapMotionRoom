@@ -11,7 +11,7 @@ public class HexagonScoreViz : MonoBehaviour {
     private bool[] _isActivated = new bool[6];
     private float timeActive = 0.0f;
 
-    //public SoundManager _sound;
+    public SoundManager _sound;
 
 
 	// Use this for initialization
@@ -46,7 +46,7 @@ public class HexagonScoreViz : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                //_sound.PlaySound("Selection");
+                _sound.PlaySound("Selection");
                 _isActivated[i] = false;
                 _statValues[i] = 0.0f;
             }
