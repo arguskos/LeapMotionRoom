@@ -12,8 +12,6 @@ public class Element : MonoBehaviour
     private Color _color;
     private Vector3 _scale;
     public int Id { get; private set; }
-    public bool IsLoading = true;
-    private float _loadmultiplier;
 
     public void OnCompleteOn()
     {

@@ -39,8 +39,11 @@ public class PlayerObject : MonoBehaviour {
 	    LastActivatedFace = -1;
         foreach (Transform child in transform)
         {
+            if (child.gameObject.GetComponent<PuzzleFace>() != null)
+            {
+                _faces.Add(child.gameObject.GetComponent<PuzzleFace>());
+            }
 
-            _faces.Add(child.gameObject.GetComponent<PuzzleFace>());
         }
     }
 	

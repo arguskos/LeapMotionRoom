@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameFlow : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class GameFlow : MonoBehaviour
     public int NumbersToGuess = 2;
     public List<int> ArrayToGuess = new List<int>();
     public List<int> ArrayInputed = new List<int>();
+
+    public GameObject TXTScore;
+    public int Score;
 
     public bool GenerateMoreThenOneFace = true;
     public bool EachPlayerGetsPiece = true;
@@ -71,6 +75,7 @@ public class GameFlow : MonoBehaviour
     void Start()
     {
         GenerateSequenece();
+        Score = 0;
     }
 
     // Update is called once per frame
@@ -161,6 +166,8 @@ public class GameFlow : MonoBehaviour
         {
             PreviewPie.TurnOffAll();
         }*/
+
+        TXTScore.GetComponent<Text>().text = Score.ToString();
     }
     public void GenerateSequenece()
     {
@@ -303,10 +310,12 @@ public class GameFlow : MonoBehaviour
                 if (ArrayInputed.SequenceEqual(ArrayToGuess))
                 {
                     Guessed();
+                    Score += 150;
                 }
                 else
                 {
                     NotGuessed();
+                    Score -= 50;
                 }
                 Debug.Log(outer);
                 Debug.Log(outer2);
