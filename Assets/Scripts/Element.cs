@@ -26,7 +26,7 @@ public class Element : MonoBehaviour
 
     public void DeffaultOn()
     {
-        var scalemultiplier = 4f;
+        var scalemultiplier = 2.0f;
         var newscale = new Vector3(_scale.x * scalemultiplier, _scale.y * scalemultiplier, _scale.z);
         var colormultiplier = 0.5f;
         iTween.ColorTo(gameObject, colormultiplier*_color,_delay/4);
@@ -44,13 +44,15 @@ public class Element : MonoBehaviour
     {
         IsOn = false;
         Id = id;
+        _color = GetComponent<Renderer>().material.color;
+        _delay = 0.25f;
+        _scale = transform.localScale;
     }
     // Use this for initialization
     void Start()
     {
-        _color = GetComponent<Renderer>().material.color;
-        _delay = 0.25f;
-        _scale = transform.localScale;
+     
+
     }
 
     // Update is called once per frame

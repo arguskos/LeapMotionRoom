@@ -10,7 +10,7 @@ public class PuzzleFace : MonoBehaviour
 
     // Use this for initialization
     private int _numberOfElements;
-    private List<Element> ElementObjects = new List<Element>();
+    public List<Element> ElementObjects = new List<Element>();
     public bool IsActivated { get; private set; }
 
     public void ActivatePiece (int numbe)
@@ -22,9 +22,17 @@ public class PuzzleFace : MonoBehaviour
 
     public void DeactivatePiece (int number)
     {
-        IsActivated = false;
+        
         ElementObjects[number].IsOn = false;
         ElementObjects[number].DeffaultOff();
+        foreach (var elem in ElementObjects)
+        {
+            if (elem.IsOn)
+            {
+                return;
+            }
+        }
+        IsActivated = false;
     }
 
     public void TurnOffAll()
@@ -36,23 +44,35 @@ public class PuzzleFace : MonoBehaviour
             ElementObjects[i].DeffaultOff();
         }
     }
-
+    public void TurnOnAll()
+    {
+        Debug.Log(ElementObjects.Count);
+        for (int i = 0; i < ElementObjects.Count; i++)
+        {
+            IsActivated = true;
+            ElementObjects[i].IsOn = true;
+            ElementObjects[i].DeffaultOn();
+        }
+    }
     void Start()
     {
 
+       Init();
+    }
+
+    public void Init()
+    {
         foreach (Transform child in transform)
         {
 
-            ElementObjects.Add(child.gameObject.GetComponent < Element>());
+            ElementObjects.Add(child.gameObject.GetComponent<Element>());
         }
         _numberOfElements = ElementObjects.Count;
         for (int i = 0; i < ElementObjects.Count; i++)
         {
             ElementObjects[i].Init(i);
         }
-
     }
-
     // Update is called once per frame
     void Update()
     {

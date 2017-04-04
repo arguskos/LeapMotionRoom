@@ -44,7 +44,7 @@ public class ArduinoButtons : MonoBehaviour {
            openMssg = Arduino2.ReadLine();
            Debug.Log(openMssg);
            if (openMssg == "1")
-           {
+           {    
                //start the overall game
                started = true;
            }

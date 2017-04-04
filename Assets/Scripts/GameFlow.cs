@@ -57,7 +57,7 @@ public class GameFlow : MonoBehaviour
                 if (player.LastActivatedFace == -1)
                 {
                     int rnd = Random.Range(0, player.GetFacesCount());
-
+                    Debug.Log(rnd+": rnd"+item);
                     player.ActivateFace(rnd, item);
                 }
                 else
@@ -70,6 +70,8 @@ public class GameFlow : MonoBehaviour
     }
     void Start()
     {
+        ObjectPlayerOne.Init();
+        ObjectPlayerTwo.Init();
         GenerateSequenece();
     }
 
@@ -144,19 +146,22 @@ public class GameFlow : MonoBehaviour
             ArrayInputed.Remove(5);
             Check();
         }
-
-        for (int i = 0; i < MaxElements; i++)
+        if (PreviewPie)
         {
-            if (ArrayInputed.Contains(i))
+            for (int i = 0; i < MaxElements; i++)
             {
-                PreviewPie.ActivatePiece(i);
+                if (ArrayInputed.Contains(i))
+                {
+                    PreviewPie.ActivatePiece(i);
+                }
+                else
+                {
+                    PreviewPie.DeactivatePiece(i);
+                }
             }
-            else
-            {
-                PreviewPie.DeactivatePiece(i);
-            }
-        }
 
+
+        }
         /*if (ArrayInputed.Count == 0)
         {
             PreviewPie.TurnOffAll();

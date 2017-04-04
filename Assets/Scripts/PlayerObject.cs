@@ -6,7 +6,7 @@ public class PlayerObject : MonoBehaviour {
 
     public int Id;
 
-    private List<PuzzleFace> _faces = new List<PuzzleFace>();
+    public List<PuzzleFace> _faces = new List<PuzzleFace>();
     public  int  LastActivatedFace { get; private set; }
     public bool IsActive { get; private set; }
 
@@ -33,15 +33,35 @@ public class PlayerObject : MonoBehaviour {
             facc.TurnOffAll();
         }
     }
-	// Use this for initialization
-	void Start ()
+    public void ActivateAllFaces()
+    {
+        IsActive = true;
+        foreach (var facc in _faces)
+        {
+            facc.TurnOnAll();
+        }
+    }
+    // Use this for initialization
+    void Start ()
 	{
-	    LastActivatedFace = -1;
-        foreach (Transform child in transform)
+	   
+    }
+
+   
+    public void Init()
+    {
+        LastActivatedFace = -1;
+        Debug.Log(transform.childCount);
+        foreach (Transform face in transform)
         {
 
-            _faces.Add(child.gameObject.GetComponent<PuzzleFace>());
+            if (face.gameObject.GetComponent<PuzzleFace>())
+            {
+                face.gameObject.GetComponent<PuzzleFace>().Init();
+                _faces.Add(face.GetComponent<PuzzleFace>());
+            }
         }
+        
     }
 	
 	// Update is called once per frame
