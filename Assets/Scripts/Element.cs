@@ -51,7 +51,7 @@ public class Element : MonoBehaviour
     void Start()
     {
         _originalcolor = GetComponent<Renderer>().material.color;
-        _delay = 0.25f;
+        _delay = 0.1f + (Id*0.1f);
         _scale = transform.localScale;
     }
 
