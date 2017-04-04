@@ -12,11 +12,19 @@ public class PuzzleFace : MonoBehaviour
     private int _numberOfElements;
     private List<Element> ElementObjects = new List<Element>();
     public bool IsActivated { get; private set; }
+
     public void ActivatePiece (int numbe)
     {
         ElementObjects[numbe].IsOn = true;
         ElementObjects[numbe].DeffaultOn();
-        IsActivated = true;
+        IsActivated = true; 
+    }
+
+    public void DeactivatePiece (int number)
+    {
+        IsActivated = false;
+        ElementObjects[number].IsOn = false;
+        ElementObjects[number].DeffaultOff();
     }
 
     public void TurnOffAll()
@@ -28,6 +36,7 @@ public class PuzzleFace : MonoBehaviour
             ElementObjects[i].DeffaultOff();
         }
     }
+
     void Start()
     {
 

@@ -9,7 +9,7 @@ public class GameFlow : MonoBehaviour
     // Use this for initialization
 
     
-
+    
     public int MaxElements = 6;
     public int NumbersToGuess = 2;
     public List<int> ArrayToGuess = new List<int>();
@@ -23,7 +23,9 @@ public class GameFlow : MonoBehaviour
     //private List<PuzzleFace> FacesPlayerTwo = new List<PuzzleFace>();
     public PlayerObject ObjectPlayerOne;
     public PlayerObject ObjectPlayerTwo;
+    public PuzzleFace PreviewPie;
     public PuzzleFace DebugPie;
+
     private void ActivatePlayerFaces(PlayerObject player, int item)
     {
         if (ModeSubstract)
@@ -75,7 +77,6 @@ public class GameFlow : MonoBehaviour
     {
 
         //possible error is number will be in the list on realeas for whatever reason
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             ArrayInputed.Add(0);
@@ -138,6 +139,23 @@ public class GameFlow : MonoBehaviour
             ArrayInputed.Remove(5);
             Check();
         }
+
+        for (int i = 0; i < MaxElements; i++)
+        {
+            if (ArrayInputed.Contains(i))
+            {
+                PreviewPie.ActivatePiece(i);
+            }
+            else
+            {
+                PreviewPie.DeactivatePiece(i);
+            }
+        }
+
+        /*if (ArrayInputed.Count == 0)
+        {
+            PreviewPie.TurnOffAll();
+        }*/
     }
     public void GenerateSequenece()
     {
@@ -304,6 +322,7 @@ public class GameFlow : MonoBehaviour
         ArrayToGuess.Clear();
         ArrayInputed.Clear();
         DebugPie.TurnOffAll();
+        PreviewPie.TurnOffAll();
         yield return new WaitForSeconds(2);
         GenerateSequenece();
     }
