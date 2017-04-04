@@ -8,9 +8,6 @@ public class GameFlow : MonoBehaviour
 {
 
     // Use this for initialization
-
-
-
     public int MaxElements = 6;
     public int NumbersToGuess = 2;
     public List<int> ArrayToGuess = new List<int>();
@@ -72,6 +69,7 @@ public class GameFlow : MonoBehaviour
             }
         }
     }
+
     void Start()
     {
         GenerateSequenece();
@@ -81,75 +79,68 @@ public class GameFlow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Play selection sound on keydown
         if (Input.anyKeyDown)
         {
             SoundManager.PlaySound("Selection");
         }
 
-        //possible error is number will be in the list on realeas for whatever reason
-        if (Input.GetKeyDown(KeyCode.Q))
+        //Add number to inputted array if it isn't full yet
+        if (ArrayInputed.Count <= NumbersToGuess)
         {
-            ArrayInputed.Add(0);
-            Check();
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            ArrayInputed.Add(1);
-            Check();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            ArrayInputed.Add(2);
-            Check();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ArrayInputed.Add(3);
-            Check();
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            ArrayInputed.Add(4);
-            Check();
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            ArrayInputed.Add(5);
-            Check();
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                ArrayInputed.Add(0);
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                ArrayInputed.Add(1);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ArrayInputed.Add(2);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ArrayInputed.Add(3);
+            }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                ArrayInputed.Add(4);
+            }
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                ArrayInputed.Add(5);
+            }
         }
 
-
+        //Remove from inputted array on keyup
         if (Input.GetKeyUp(KeyCode.Q))
         {
             ArrayInputed.Remove(0);
-            Check();
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
             ArrayInputed.Remove(1);
-            Check();
         }
         if (Input.GetKeyUp(KeyCode.E))
         {
             ArrayInputed.Remove(2);
-            Check();
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
             ArrayInputed.Remove(3);
-            Check();
         }
         if (Input.GetKeyUp(KeyCode.T))
         {
             ArrayInputed.Remove(4);
-            Check();
         }
         if (Input.GetKeyUp(KeyCode.Y))
         {
             ArrayInputed.Remove(5);
-            Check();
         }
 
+        //Activate previewpie UI and start charging on buttonpress
         for (int i = 0; i < MaxElements; i++)
         {
             if (ArrayInputed.Contains(i))
@@ -162,13 +153,15 @@ public class GameFlow : MonoBehaviour
             }
         }
 
-        /*if (ArrayInputed.Count == 0)
-        {
-            PreviewPie.TurnOffAll();
-        }*/
+        //Check for solution
+        Check();
 
+
+
+        //Update UI Score
         TXTScore.GetComponent<Text>().text = Score.ToString();
     }
+
     public void GenerateSequenece()
     {
         for (int i = 0; i < NumbersToGuess; i++)
@@ -287,9 +280,6 @@ public class GameFlow : MonoBehaviour
 
     public void Check()
     {
-
-
-        {
             Debug.Log(ArrayInputed.Count);
 
             string outer = "";
@@ -309,20 +299,22 @@ public class GameFlow : MonoBehaviour
                 ArrayToGuess.Sort();
                 if (ArrayInputed.SequenceEqual(ArrayToGuess))
                 {
+                    //If correct add score
                     Guessed();
                     Score += 150;
                 }
                 else
                 {
+                    //If wrong subtract score
                     NotGuessed();
                     Score -= 50;
                 }
                 Debug.Log(outer);
                 Debug.Log(outer2);
-
             }
-        }
     }
+
+    //Correct
     public void Guessed()
     {
         Debug.Log("right");
@@ -330,6 +322,7 @@ public class GameFlow : MonoBehaviour
         StartCoroutine(Clear());
     }
 
+    //Clear
     private IEnumerator Clear()
 
     {
@@ -342,6 +335,8 @@ public class GameFlow : MonoBehaviour
         yield return new WaitForSeconds(2);
         GenerateSequenece();
     }
+
+    //Wrong
     public void NotGuessed()
     {
         Debug.Log("wrong");
