@@ -6,9 +6,27 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: B_PuzzleShape_03_Root
+    100004: B_Socket007
+    100006: B_Socket008
+    100008: B_Socket009
+    100010: B_Socket010
+    100012: B_Socket011
+    100014: B_Socket012
+    100016: PuzzleShape_03
     400000: //RootNode
+    400002: B_PuzzleShape_03_Root
+    400004: B_Socket007
+    400006: B_Socket008
+    400008: B_Socket009
+    400010: B_Socket010
+    400012: B_Socket011
+    400014: B_Socket012
+    400016: PuzzleShape_03
     2300000: //RootNode
+    2300002: PuzzleShape_03
     3300000: //RootNode
+    3300002: PuzzleShape_03
     4300000: PuzzleShape_03
   materials:
     importMaterials: 0
