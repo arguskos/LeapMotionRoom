@@ -72,6 +72,7 @@ public class GameFlow : MonoBehaviour
 
     void Start()
     {
+        PreviewPie.SetIsPreview(true);
         GenerateSequenece();
         Score = 0;
     }
@@ -155,8 +156,6 @@ public class GameFlow : MonoBehaviour
 
         //Check for solution
         Check();
-
-
 
         //Update UI Score
         TXTScore.GetComponent<Text>().text = Score.ToString();
