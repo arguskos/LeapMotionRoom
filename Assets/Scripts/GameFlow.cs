@@ -27,6 +27,8 @@ public class GameFlow : MonoBehaviour
     public PuzzleFace PreviewPie;
     public PuzzleFace DebugPie;
     public SoundManager SoundManager;
+
+    private float _pressTime = 0;
     private bool _isBlocked = false;
 
     private void ActivatePlayerFaces(PlayerObject player, int item)
@@ -97,32 +99,32 @@ public class GameFlow : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
                     ArrayInputed.Add(0);
-                    Check();
+                    Check(KeyCode.Q);
                 }
                 if (Input.GetKeyDown(KeyCode.W))
                 {
                     ArrayInputed.Add(1);
-                    Check();
+                    Check(KeyCode.E);
                 }
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     ArrayInputed.Add(2);
-                    Check();
+                    Check(KeyCode.E);
                 }
                 if (Input.GetKeyDown(KeyCode.R))
                 {
                     ArrayInputed.Add(3);
-                    Check();
+                    Check(KeyCode.R);
                 }
                 if (Input.GetKeyDown(KeyCode.T))
                 {
                     ArrayInputed.Add(4);
-                    Check();
+                    Check(KeyCode.T);
                 }
                 if (Input.GetKeyDown(KeyCode.Y))
                 {
                     ArrayInputed.Add(5);
-                    Check();
+                    Check(KeyCode.Y);
                 }
             }
 
@@ -130,32 +132,32 @@ public class GameFlow : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Q))
             {
                 ArrayInputed.Remove(0);
-                Check();
+                Check(KeyCode.Q);
             }
             if (Input.GetKeyUp(KeyCode.W))
             {
                 ArrayInputed.Remove(1);
-                Check();
+                Check(KeyCode.W);
             }
             if (Input.GetKeyUp(KeyCode.E))
             {
                 ArrayInputed.Remove(2);
-                Check();
+                Check(KeyCode.E);
             }
             if (Input.GetKeyUp(KeyCode.R))
             {
                 ArrayInputed.Remove(3);
-                Check();
+                Check(KeyCode.R);
             }
             if (Input.GetKeyUp(KeyCode.T))
             {
                 ArrayInputed.Remove(4);
-                Check();
+                Check(KeyCode.T);
             }
             if (Input.GetKeyUp(KeyCode.Y))
             {
                 ArrayInputed.Remove(5);
-                Check();
+                Check(KeyCode.Y);
             }
         }
         if (PreviewPie)
@@ -302,40 +304,46 @@ public class GameFlow : MonoBehaviour
         }
     }
 
-    public void Check()
+    public void Check(KeyCode key)
     {
         Debug.Log(ArrayInputed.Count);
 
         string outer = "";
         string outer2 = "";
         int counter = 0;
-        foreach (var num in ArrayInputed)
-        {
-            outer += num.ToString();
-            outer2 += ArrayToGuess[counter].ToString();
-            counter++;
+        //foreach (var num in ArrayInputed)
+        //{
+        //    outer += num.ToString();
+        //    outer2 += ArrayToGuess[counter].ToString();
+        //    counter++;
 
 
-        }
+        //}
         if (ArrayInputed.Count == NumbersToGuess)
         {
-            ArrayInputed.Sort();
-            ArrayToGuess.Sort();
-            if (ArrayInputed.SequenceEqual(ArrayToGuess))
+            StartCoroutine(SlowChecker(key,ArrayInputed,ArrayToGuess));
+        }
+    }
+
+    public IEnumerator SlowChecker(KeyCode key,List<int > input, List<int> guess  )
+    {
+        //sleeps for two seconds then check
+        yield return new WaitForSeconds(0.8f);
+        input.Sort();
+        guess.Sort();
+        Debug.Log(Input.GetKey(key));
+        if (Input.GetKey(key))
+        {
+            if (input.SequenceEqual(guess))
             {
-                //If correct add score
                 Guessed();
             }
             else
             {
-                //If wrong subtract score
                 NotGuessed();
             }
-            Debug.Log(outer);
-            Debug.Log(outer2);
         }
     }
-
     //Correct
     public void Guessed()
     {
