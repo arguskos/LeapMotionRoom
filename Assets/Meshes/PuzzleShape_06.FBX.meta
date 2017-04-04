@@ -6,9 +6,55 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: B_PuzzleShape_06_Root
+    100004: B_Socket033
+    100006: B_Socket034
+    100008: B_Socket035
+    100010: B_Socket036
+    100012: B_Socket037
+    100014: B_Socket038
+    100016: B_Socket039
+    100018: B_Socket040
+    100020: B_Socket041
+    100022: B_Socket042
+    100024: B_Socket043
+    100026: B_Socket044
+    100028: B_Socket045
+    100030: B_Socket046
+    100032: B_Socket047
+    100034: B_Socket048
+    100036: B_Socket049
+    100038: B_Socket050
+    100040: B_Socket051
+    100042: B_Socket052
+    100044: PuzzleShape_06
     400000: //RootNode
+    400002: B_PuzzleShape_06_Root
+    400004: B_Socket033
+    400006: B_Socket034
+    400008: B_Socket035
+    400010: B_Socket036
+    400012: B_Socket037
+    400014: B_Socket038
+    400016: B_Socket039
+    400018: B_Socket040
+    400020: B_Socket041
+    400022: B_Socket042
+    400024: B_Socket043
+    400026: B_Socket044
+    400028: B_Socket045
+    400030: B_Socket046
+    400032: B_Socket047
+    400034: B_Socket048
+    400036: B_Socket049
+    400038: B_Socket050
+    400040: B_Socket051
+    400042: B_Socket052
+    400044: PuzzleShape_06
     2300000: //RootNode
+    2300002: PuzzleShape_06
     3300000: //RootNode
+    3300002: PuzzleShape_06
     4300000: PuzzleShape_06
   materials:
     importMaterials: 0
