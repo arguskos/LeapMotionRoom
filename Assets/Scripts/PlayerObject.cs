@@ -27,6 +27,7 @@ public class PlayerObject : MonoBehaviour {
 
     public void DeactivateAllFaces()
     {
+        LastActivatedFace = -1;
         IsActive = false;
         foreach (var facc in _faces)
         {
@@ -39,6 +40,7 @@ public class PlayerObject : MonoBehaviour {
         foreach (var facc in _faces)
         {
             facc.TurnOnAll();
+            
         }
     }
     // Use this for initialization
