@@ -8,25 +8,35 @@ public class GameFlow : MonoBehaviour
 {
 
     // Use this for initialization
+    [Header("Don't touch public for debug")]
     public int MaxElements = 6;
     public int NumbersToGuess = 2;
     public List<int> ArrayToGuess = new List<int>();
     public List<int> ArrayInputed = new List<int>();
+    public bool GenerateMoreThenOneFace = true;
+    public bool EachPlayerGetsPiece = true;
+    public bool ModeSubstract = false;
 
+    [Header("UI")]
     public GameObject TXTScore;
     public int Score;
 
-    public bool GenerateMoreThenOneFace = true;
-    public bool EachPlayerGetsPiece = true;
 
-    public bool ModeSubstract = false;
+
     //private List<PuzzleFace> FacesPlayerOne = new List<PuzzleFace>();
     //private List<PuzzleFace> FacesPlayerTwo = new List<PuzzleFace>();
+
+    [Header("Prefabs")]
     public PlayerObject ObjectPlayerOne;
     public PlayerObject ObjectPlayerTwo;
     public PuzzleFace PreviewPie;
     public PuzzleFace DebugPie;
     public SoundManager SoundManager;
+
+    [Header("Leap motion")]
+    public Leap.Unity.Attachments.HandAttachments HandLeft;
+    public Leap.Unity.Attachments.HandAttachments HandRight;
+
 
     private float _pressTime = 0;
     private bool _isBlocked = false;
@@ -80,6 +90,9 @@ public class GameFlow : MonoBehaviour
         PreviewPie.SetIsPreview(true);
         GenerateSequenece();
         Score = 0;
+        HandRight.Palm = ObjectPlayerOne.transform;
+        HandLeft.Palm = ObjectPlayerTwo.transform;
+
     }
 
     // Update is called once per frame
