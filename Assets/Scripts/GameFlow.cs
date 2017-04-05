@@ -28,7 +28,6 @@ public class GameFlow : MonoBehaviour
     public PuzzleFace DebugPie;
     public SoundManager SoundManager;
 
-    private float _pressTime = 0;
     private bool _isBlocked = false;
 
     private void ActivatePlayerFaces(PlayerObject player, int item)
@@ -99,7 +98,7 @@ public class GameFlow : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
                     ArrayInputed.Add(0);
-                    Check(KeyCode.Q);
+                    Check(KeyCode.Q  );
                 }
                 if (Input.GetKeyDown(KeyCode.W))
                 {
@@ -306,7 +305,7 @@ public class GameFlow : MonoBehaviour
 
     public void Check(KeyCode key)
     {
-        Debug.Log(ArrayInputed.Count);
+//        Debug.Log(ArrayInputed.Count);
 
         string outer = "";
         string outer2 = "";
@@ -325,7 +324,7 @@ public class GameFlow : MonoBehaviour
         }
     }
 
-    public IEnumerator SlowChecker(KeyCode key,List<int > input, List<int> guess  )
+    private IEnumerator SlowChecker(KeyCode key,List<int > input, List<int> guess  )
     {
         //sleeps for two seconds then check
         yield return new WaitForSeconds(0.8f);
@@ -345,7 +344,7 @@ public class GameFlow : MonoBehaviour
         }
     }
     //Correct
-    public void Guessed()
+    private void Guessed()
     {
         Debug.Log("right");
         Score += 150;
@@ -372,7 +371,7 @@ public class GameFlow : MonoBehaviour
     }
 
     //Wrong
-    public void NotGuessed()
+    private void NotGuessed()
     {
         _isBlocked = true;
         Debug.Log("wrong");
