@@ -14,7 +14,7 @@ public class Element : MonoBehaviour
     private Vector3 _scale;
     public int Id { get; private set; }
     public bool IsPreview;
-
+    public Material Mat;    
     public void OnCompleteOn()
     {
         IsOn = true;
@@ -53,6 +53,7 @@ public class Element : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
 
     }
 
