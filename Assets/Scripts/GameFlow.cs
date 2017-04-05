@@ -29,6 +29,7 @@ public class GameFlow : MonoBehaviour
     public SoundManager SoundManager;
 
     private bool _isBlocked = false;
+    private bool _isChecking = false;
 
     private void ActivatePlayerFaces(PlayerObject player, int item)
     {
@@ -189,6 +190,7 @@ public class GameFlow : MonoBehaviour
 
     public void GenerateSequenece()
     {
+        Debug.Log("generAting");
         for (int i = 0; i < NumbersToGuess; i++)
         {
             int rnd = Random.Range(0, MaxElements);
@@ -318,8 +320,9 @@ public class GameFlow : MonoBehaviour
 
 
         //}
-        if (ArrayInputed.Count == NumbersToGuess)
+        if (ArrayInputed.Count == NumbersToGuess && ! _isChecking)
         {
+            _isChecking = true;
             StartCoroutine(SlowChecker(key,ArrayInputed,ArrayToGuess));
         }
     }
@@ -342,6 +345,7 @@ public class GameFlow : MonoBehaviour
                 NotGuessed();
             }
         }
+        _isChecking = false;
     }
     //Correct
     private void Guessed()
@@ -358,14 +362,15 @@ public class GameFlow : MonoBehaviour
     private IEnumerator Clear()
 
     {
-        ObjectPlayerOne.DeactivateAllFaces();
-        ObjectPlayerTwo.DeactivateAllFaces();
+   
         ArrayToGuess.Clear();
         ArrayInputed.Clear();
         DebugPie.TurnOffAll();
         PreviewPie.TurnOffAll();
 
         yield return new WaitForSeconds(2);
+        ObjectPlayerOne.DeactivateAllFaces();
+        ObjectPlayerTwo.DeactivateAllFaces();
         GenerateSequenece();
         _isBlocked = false;
     }
