@@ -118,6 +118,20 @@ public class GameFlow : MonoBehaviour
         HandRight.Palm = ObjectPlayerOne.transform;
         HandLeft.Palm = ObjectPlayerTwo.transform;
         TXTScore.GetComponent<Text>().text = Score.ToString();
+        NotGuessed();
+        for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
+        {
+            if (i >= _partsInSequence)
+            {
+                Sequence.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            else
+            {
+                Sequence.transform.GetChild(i).gameObject.SetActive(true);
+
+
+            }
+        }
     }
 
     // Update is called once per frame
@@ -432,6 +446,19 @@ public class GameFlow : MonoBehaviour
         ObjectPlayerOne.DeactivateAllFaces();
         ObjectPlayerTwo.DeactivateAllFaces();
         GenerateSequenece();
+        for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
+        {
+            if (i >= _partsInSequence)
+            {
+                Sequence.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            else
+            {
+                Sequence.transform.GetChild(i).gameObject.SetActive(true);
+
+
+            }
+        }
         _isBlocked = false;
     }
 
@@ -442,7 +469,16 @@ public class GameFlow : MonoBehaviour
         for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
         {
             Sequence.transform.GetChild(i).GetComponent<PuzzleFace>().TurnOffAll();
-           
+            if (i >= _partsInSequence)
+            {
+                Sequence.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            else
+            {
+                Sequence.transform.GetChild(i).gameObject.SetActive(true);
+
+
+            }
         }
         Debug.Log("wrong");
         Score -= 50;
