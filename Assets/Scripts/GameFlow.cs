@@ -118,7 +118,6 @@ public class GameFlow : MonoBehaviour
         HandRight.Palm = ObjectPlayerOne.transform;
         HandLeft.Palm = ObjectPlayerTwo.transform;
         TXTScore.GetComponent<Text>().text = Score.ToString();
-
     }
 
     // Update is called once per frame
@@ -414,6 +413,7 @@ public class GameFlow : MonoBehaviour
             }
 
         }
+        NumbersToGuess = Mathf.Min(Random.Range(2, _stage), 6);
         StartCoroutine(Clear());
         _isBlocked = true;
     }
@@ -442,9 +442,11 @@ public class GameFlow : MonoBehaviour
         for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
         {
             Sequence.transform.GetChild(i).GetComponent<PuzzleFace>().TurnOffAll();
+           
         }
         Debug.Log("wrong");
         Score -= 50;
+        _currentPart = 0;
 
         SoundManager.PlaySound("Wrong");
         StartCoroutine(Clear());
