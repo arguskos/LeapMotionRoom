@@ -27,10 +27,10 @@ public class Element : MonoBehaviour
     //On behaviour
     public void DeffaultOn()
     {
-        var scalemultiplier = 2;
-        var newscale = new Vector3(_scale.x * scalemultiplier, _scale.y * scalemultiplier, _scale.z);
+        var scalemultiplier = 1.5f;
+        var newscale = new Vector3(_scale.x *scalemultiplier, _scale.y * scalemultiplier, _scale.z+0.1f);
         iTween.ColorTo(gameObject, _color,_delay);
-        iTween.ScaleTo(gameObject, newscale, 2);
+        iTween.ScaleTo(gameObject, newscale, 1);
 
     }
 
@@ -38,7 +38,7 @@ public class Element : MonoBehaviour
     public void DeffaultOff()
     {
         iTween.ColorTo(gameObject, _originalcolor, _delay/4 );
-        iTween.ScaleTo(gameObject, _scale, 2);
+        iTween.ScaleTo(gameObject, _scale, 1);
     }
 
     public void Init(int id )
