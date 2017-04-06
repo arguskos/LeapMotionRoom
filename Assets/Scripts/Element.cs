@@ -41,6 +41,11 @@ public class Element : MonoBehaviour
         iTween.ScaleTo(gameObject, _scale, _delay/4);
     }
 
+    public void Blink()
+    {
+        iTween.ColorTo(gameObject, new Color(0,255,0), 0);
+    }
+
     public void Init(int id )
     {
         IsPreview = false;

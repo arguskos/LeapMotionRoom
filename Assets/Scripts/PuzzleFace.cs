@@ -43,6 +43,7 @@ public class PuzzleFace : MonoBehaviour
             ElementObjects[i].DeffaultOff();
         }
     }
+
     public void TurnOnAll()
     {
         Debug.Log(ElementObjects.Count);
@@ -53,6 +54,15 @@ public class PuzzleFace : MonoBehaviour
             ElementObjects[i].DeffaultOn();
         }
     }
+
+    public void Blink()
+    {
+        for (int i = 0; i < ElementObjects.Count; i++)
+        {
+            ElementObjects[i].Blink();
+        }
+    }
+
     void Start()
     {
 
