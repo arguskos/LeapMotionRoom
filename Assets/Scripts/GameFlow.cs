@@ -44,7 +44,7 @@ public class GameFlow : MonoBehaviour
     private bool _isChecking = false;
     private int _partsInSequence;
     private int _currentPart = 0;
-    private int _stage = 0;
+    public int Stage { get; private set; }
 
 
     private void ActivatePlayerFaces(PlayerObject player, int item)
@@ -96,8 +96,11 @@ public class GameFlow : MonoBehaviour
             Destroy(ObjectPlayerOne.transform.parent.gameObject);
             Destroy(ObjectPlayerTwo.transform.parent.gameObject);
         }
-        GameObject obj1 = Instantiate(Shapes[_stage]);
-        GameObject obj2 = Instantiate(Shapes[_stage]);
+        GameObject obj1 = Instantiate(Shapes[Stage]);
+        GameObject obj2 = Instantiate(Shapes[Stage]);
+
+
+
         PlaceFaces p1 = obj1.GetComponentInChildren<PlaceFaces>();
         PlaceFaces p2 = obj2.GetComponentInChildren<PlaceFaces>();
         p1.Init();
@@ -107,16 +110,18 @@ public class GameFlow : MonoBehaviour
         ObjectPlayerTwo = obj2.GetComponentInChildren<PlayerObject>();
         ObjectPlayerOne.Init();
         ObjectPlayerTwo.Init();
+        HandRight.Palm = ObjectPlayerOne.transform;
+        HandLeft.Palm = ObjectPlayerTwo.transform;
         _partsInSequence = ObjectPlayerOne._faces.Count;
 
     }
     void Start()
     {
+        Stage = 0;
         SpawnCurrent();
         GenerateSequenece();
         Score = 0;
-        HandRight.Palm = ObjectPlayerOne.transform;
-        HandLeft.Palm = ObjectPlayerTwo.transform;
+     
         TXTScore.GetComponent<Text>().text = Score.ToString();
 
     }
@@ -405,7 +410,7 @@ public class GameFlow : MonoBehaviour
         _currentPart++;
         if (_currentPart == _partsInSequence)
         {
-            _stage++;
+            Stage++;
             _currentPart = 0;
             SpawnCurrent();
             for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
