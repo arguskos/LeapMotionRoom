@@ -14,7 +14,7 @@ public class Element : MonoBehaviour
     private Vector3 _scale;
     public int Id { get; private set; }
     public bool IsPreview;
-
+    public Material Mat;    
     public void OnCompleteOn()
     {
         IsOn = true;
@@ -27,10 +27,10 @@ public class Element : MonoBehaviour
     //On behaviour
     public void DeffaultOn()
     {
-        var scalemultiplier = 2.0f;
-        var newscale = new Vector3(_scale.x * scalemultiplier, _scale.y * scalemultiplier, _scale.z);
+        var scalemultiplier = 1.5f;
+        var newscale = new Vector3(_scale.x *scalemultiplier, _scale.y * scalemultiplier, _scale.z+0.1f);
         iTween.ColorTo(gameObject, _color,_delay);
-        iTween.ScaleTo(gameObject, newscale, _delay*0.75f);
+        iTween.ScaleTo(gameObject, newscale, 1);
 
     }
 
@@ -38,7 +38,7 @@ public class Element : MonoBehaviour
     public void DeffaultOff()
     {
         iTween.ColorTo(gameObject, _originalcolor, _delay/4 );
-        iTween.ScaleTo(gameObject, _scale, _delay/4);
+        iTween.ScaleTo(gameObject, _scale, 1);
     }
 
     public void Blink()
@@ -58,6 +58,7 @@ public class Element : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
 
     }
 

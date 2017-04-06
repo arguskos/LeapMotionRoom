@@ -32,7 +32,8 @@ public class GameFlow : MonoBehaviour
     public PuzzleFace PreviewPie;
     public PuzzleFace DebugPie;
     public SoundManager SoundManager;
-
+    public GameObject Sequence;
+    public GameObject[] Shapes;
 
     [Header("Leap motion")]
     public Leap.Unity.Attachments.HandAttachments HandLeft;
@@ -41,6 +42,10 @@ public class GameFlow : MonoBehaviour
 
     private bool _isBlocked = false;
     private bool _isChecking = false;
+    private int _partsInSequence;
+    private int _currentPart = 0;
+    private int _stage = 0;
+
 
     private void ActivatePlayerFaces(PlayerObject player, int item)
     {
@@ -84,15 +89,35 @@ public class GameFlow : MonoBehaviour
         }
     }
 
-    void Start()
+    private void SpawnCurrent()
     {
+        if (ObjectPlayerOne && ObjectPlayerTwo)
+        {
+            Destroy(ObjectPlayerOne.transform.parent.gameObject);
+            Destroy(ObjectPlayerTwo.transform.parent.gameObject);
+        }
+        GameObject obj1 = Instantiate(Shapes[_stage]);
+        GameObject obj2 = Instantiate(Shapes[_stage]);
+        PlaceFaces p1 = obj1.GetComponentInChildren<PlaceFaces>();
+        PlaceFaces p2 = obj2.GetComponentInChildren<PlaceFaces>();
+        p1.Init();
+        p2.Init();
+
+        ObjectPlayerOne = obj1.GetComponentInChildren<PlayerObject>();
+        ObjectPlayerTwo = obj2.GetComponentInChildren<PlayerObject>();
         ObjectPlayerOne.Init();
         ObjectPlayerTwo.Init();
-        PreviewPie.SetIsPreview(true);
+        _partsInSequence = ObjectPlayerOne._faces.Count;
+
+    }
+    void Start()
+    {
+        SpawnCurrent();
         GenerateSequenece();
         Score = 0;
         HandRight.Palm = ObjectPlayerOne.transform;
         HandLeft.Palm = ObjectPlayerTwo.transform;
+        TXTScore.GetComponent<Text>().text = Score.ToString();
 
     }
 
@@ -113,12 +138,12 @@ public class GameFlow : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
                     ArrayInputed.Add(0);
-                    Check(KeyCode.Q  );
+                    Check(KeyCode.Q);
                 }
                 if (Input.GetKeyDown(KeyCode.W))
                 {
                     ArrayInputed.Add(1);
-                    Check(KeyCode.E);
+                    Check(KeyCode.W);
                 }
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -196,10 +221,9 @@ public class GameFlow : MonoBehaviour
             PreviewPie.TurnOffAll();
         }*/
         //Check for solution
-        
+
 
         //Update UI Score
-        TXTScore.GetComponent<Text>().text = Score.ToString();
     }
 
     public void GenerateSequenece()
@@ -321,7 +345,7 @@ public class GameFlow : MonoBehaviour
 
     public void Check(KeyCode key)
     {
-//        Debug.Log(ArrayInputed.Count);
+        //        Debug.Log(ArrayInputed.Count);
 
         string outer = "";
         string outer2 = "";
@@ -334,21 +358,21 @@ public class GameFlow : MonoBehaviour
 
 
         //}
-        if (ArrayInputed.Count == NumbersToGuess && ! _isChecking)
+        if (ArrayInputed.Count == NumbersToGuess && !_isChecking)
         {
             _isChecking = true;
-            StartCoroutine(SlowChecker(key,ArrayInputed,ArrayToGuess));
+            StartCoroutine(SlowChecker(key, ArrayInputed, ArrayToGuess));
         }
     }
 
-    private IEnumerator SlowChecker(KeyCode key,List<int > input, List<int> guess  )
+    private IEnumerator SlowChecker(KeyCode key, List<int> input, List<int> guess)
     {
         //sleeps for two seconds then check
         yield return new WaitForSeconds(0.8f);
         input.Sort();
         guess.Sort();
         Debug.Log(Input.GetKey(key));
-        if (Input.GetKey(key))
+        if (Input.GetKey(key)&& ArrayInputed.Count == NumbersToGuess)
         {
             if (input.SequenceEqual(guess))
             {
@@ -359,6 +383,8 @@ public class GameFlow : MonoBehaviour
                 NotGuessed();
             }
         }
+        TXTScore.GetComponent<Text>().text = Score.ToString();
+
         _isChecking = false;
     }
     //Correct
@@ -368,6 +394,26 @@ public class GameFlow : MonoBehaviour
         Score += 150;
 
         SoundManager.PlaySound("Progress_002");
+
+        for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
+        {
+            if (ArrayToGuess.Contains(i))
+            {
+                Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects[i].DeffaultOn();
+            }
+        }
+        _currentPart++;
+        if (_currentPart == _partsInSequence)
+        {
+            _stage++;
+            _currentPart = 0;
+            SpawnCurrent();
+            for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
+            {
+                Sequence.transform.GetChild(i).GetComponent<PuzzleFace>().TurnOffAll();
+            }
+
+        }
         StartCoroutine(Clear());
         _isBlocked = true;
     }
@@ -376,7 +422,7 @@ public class GameFlow : MonoBehaviour
     private IEnumerator Clear()
 
     {
-   
+
         ArrayToGuess.Clear();
         ArrayInputed.Clear();
         DebugPie.TurnOffAll();
@@ -394,12 +440,16 @@ public class GameFlow : MonoBehaviour
     private void NotGuessed()
     {
         _isBlocked = true;
+        for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
+        {
+            Sequence.transform.GetChild(i).GetComponent<PuzzleFace>().TurnOffAll();
+        }
         Debug.Log("wrong");
         Score -= 50;
 
         SoundManager.PlaySound("Wrong");
         StartCoroutine(Clear());
-        
+
 
     }
 }
