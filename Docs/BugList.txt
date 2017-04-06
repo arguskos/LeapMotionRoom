@@ -1,3 +1,0 @@
-- Sometimes the faces of one HexagonPie are all 0, which makes the other HexagonPie the correct answer
-- The first time the sequence is created, all faces that are activated are pure black, making hard to see the orientation
-- Numbers to guess is going higher than the defined value with "mode subtract"
