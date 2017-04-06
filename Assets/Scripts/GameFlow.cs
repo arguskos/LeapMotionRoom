@@ -117,6 +117,7 @@ public class GameFlow : MonoBehaviour
         Score = 0;
         HandRight.Palm = ObjectPlayerOne.transform;
         HandLeft.Palm = ObjectPlayerTwo.transform;
+        TXTScore.GetComponent<Text>().text = Score.ToString();
 
     }
 
@@ -142,7 +143,7 @@ public class GameFlow : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.W))
                 {
                     ArrayInputed.Add(1);
-                    Check(KeyCode.E);
+                    Check(KeyCode.W);
                 }
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -223,7 +224,6 @@ public class GameFlow : MonoBehaviour
 
 
         //Update UI Score
-        TXTScore.GetComponent<Text>().text = Score.ToString();
     }
 
     public void GenerateSequenece()
@@ -372,7 +372,7 @@ public class GameFlow : MonoBehaviour
         input.Sort();
         guess.Sort();
         Debug.Log(Input.GetKey(key));
-        if (Input.GetKey(key))
+        if (Input.GetKey(key)&& ArrayInputed.Count == NumbersToGuess)
         {
             if (input.SequenceEqual(guess))
             {
@@ -383,6 +383,8 @@ public class GameFlow : MonoBehaviour
                 NotGuessed();
             }
         }
+        TXTScore.GetComponent<Text>().text = Score.ToString();
+
         _isChecking = false;
     }
     //Correct
