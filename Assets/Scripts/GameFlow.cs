@@ -418,7 +418,7 @@ public class GameFlow : MonoBehaviour
             }
 
         }
-        NumbersToGuess = Mathf.Min(Random.Range(2, _stage), 6);
+        NumbersToGuess = Random.Range(1,4);
         StartCoroutine(Clear());
         _isBlocked = true;
     }

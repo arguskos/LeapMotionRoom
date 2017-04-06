@@ -31,10 +31,10 @@ public class ArduinoButtons : MonoBehaviour {
         Arduino1.Open();
         Arduino1.Write("a");
 
-        Arduino2 = new SerialPort("COM4", 115200);
-        Arduino2.ReadTimeout = 25;
-        Arduino2.Open();
-        Arduino2.Write("a");
+        //Arduino2 = new SerialPort("COM4", 115200);
+        //Arduino2.ReadTimeout = 25;
+        //Arduino2.Open();
+        //Arduino2.Write("a");
 		
 	}
 	
