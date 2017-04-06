@@ -446,7 +446,6 @@ public class GameFlow : MonoBehaviour
         ArrayInputed.Clear();
         DebugPie.TurnOffAll();
         PreviewPie.TurnOffAll();
-        PreviewPie.Blink();
 
         yield return new WaitForSeconds(2);
         ObjectPlayerOne.DeactivateAllFaces();
