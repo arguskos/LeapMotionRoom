@@ -28,7 +28,7 @@ public class Element : MonoBehaviour
     public void DeffaultOn()
     {
         var scalemultiplier = 1.5f;
-        var newscale = new Vector3(_scale.x *scalemultiplier, _scale.y * scalemultiplier, _scale.z+0.1f);
+        var newscale = new Vector3(_scale.x *scalemultiplier, _scale.y * scalemultiplier, _scale.z+0.1f );
         iTween.ColorTo(gameObject, _color,_delay);
         iTween.ScaleTo(gameObject, newscale, 1);
 
