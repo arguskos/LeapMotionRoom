@@ -12,6 +12,7 @@ public class PuzzleFace : MonoBehaviour
     private int _numberOfElements;
     public List<Element> ElementObjects { get; private set; }
     public bool IsActivated { get; private set; }
+    public bool IsHUDPiece;
     public void ActivatePiece(int numbe)
     {
         ElementObjects[numbe].IsOn = true;
@@ -42,6 +43,7 @@ public class PuzzleFace : MonoBehaviour
             ElementObjects[i].DeffaultOff();
         }
     }
+
     public void TurnOnAll()
     {
         Debug.Log(ElementObjects.Count);
@@ -52,9 +54,9 @@ public class PuzzleFace : MonoBehaviour
             ElementObjects[i].DeffaultOn();
         }
     }
+
     void Start()
     {
-        
         Init();
     }
 
@@ -71,6 +73,7 @@ public class PuzzleFace : MonoBehaviour
         for (int i = 0; i < _numberOfElements; i++)
         {
             ElementObjects[i].Init(i);
+            ElementObjects[i].IsHUDPiece = IsHUDPiece;
         }
     }
 

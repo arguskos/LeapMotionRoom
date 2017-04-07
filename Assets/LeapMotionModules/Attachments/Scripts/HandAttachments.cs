@@ -54,7 +54,9 @@ namespace Leap.Unity.Attachments {
     public Transform GrabPoint;
 
     private Hand _hand;
-  
+
+        public GameFlow GF;
+    
     public override ModelType HandModelType {
       get {
         return ModelType.Graphics;
@@ -79,8 +81,8 @@ namespace Leap.Unity.Attachments {
     /** Whether to draw lines to visualize the hand. */
     [Tooltip(" Whether to draw lines to visualize the hand.")]
     public bool DrawHand = false;
-
-    public override void SetLeapHand(Hand hand) {
+       
+        public override void SetLeapHand(Hand hand) {
       _hand = hand;
     }
   
@@ -91,10 +93,11 @@ namespace Leap.Unity.Attachments {
     /** Updates the position and rotation for each non-null attachment transform. */
     public override void UpdateHand () {
       if(Palm != null) {
-        Palm.position = _hand.PalmPosition.ToVector3();
-        Palm.rotation = _hand.Basis.rotation.ToQuaternion();
-      }
-      if(Arm != null) {
+        Palm.position = _hand.PalmPosition.ToVector3()+ GetComponent<RotationArray2>().Position[GF.Stage];
+       Palm.rotation = _hand.Basis.rotation.ToQuaternion() * Quaternion.Euler(GetComponent<RotationArray2>().Rotations[GF.Stage]);
+
+            }
+            if (Arm != null) {
         Arm.position = _hand.Arm.Center.ToVector3();
         Arm.rotation = _hand.Arm.Basis.rotation.ToQuaternion();
       }
