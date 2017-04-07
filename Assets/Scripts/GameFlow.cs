@@ -31,6 +31,8 @@ public class GameFlow : MonoBehaviour
     public PlayerObject ObjectPlayerTwo;
     public PuzzleFace PreviewPie;
     public PuzzleFace DebugPie;
+    public PuzzleFace NewPart;
+
     public SoundManager SoundManager;
     public GameObject Sequence;
     public GameObject[] Shapes;
@@ -119,19 +121,8 @@ public class GameFlow : MonoBehaviour
         HandLeft.Palm = ObjectPlayerTwo.transform;
         TXTScore.GetComponent<Text>().text = Score.ToString();
         NotGuessed();
-        for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
-        {
-            if (i >= _partsInSequence)
-            {
-                Sequence.transform.GetChild(i).gameObject.SetActive(false);
-            }
-            else
-            {
-                Sequence.transform.GetChild(i).gameObject.SetActive(true);
+        ShowPartInSequnce();
 
-
-            }
-        }
     }
 
     // Update is called once per frame
@@ -416,6 +407,7 @@ public class GameFlow : MonoBehaviour
             }
         }
         _currentPart++;
+       
         if (_currentPart == _partsInSequence)
         {
             _stage++;
@@ -429,10 +421,35 @@ public class GameFlow : MonoBehaviour
         }
         NumbersToGuess = Mathf.Min(Random.Range(2, _stage), 6);
         StartCoroutine(Clear());
+        if (_currentPart > 1)
+
+        {
+            StartCoroutine(MoveSequence());
+        }
         _isBlocked = true;
     }
 
     //Clear
+    private void ShowPartInSequnce()
+    {
+        HideAllPartInSequence();
+        for (int i = 0; i < 6; i++)
+        {
+            if (i < _partsInSequence)
+            {
+                Sequence.transform.GetChild(i).gameObject.SetActive(true);
+
+            }
+        }
+    }
+
+    private void HideAllPartInSequence()
+    {
+        foreach (Transform part in Sequence.transform)
+        {
+            part.gameObject.SetActive(false);
+        }
+    }
     private IEnumerator Clear()
 
     {
@@ -446,22 +463,23 @@ public class GameFlow : MonoBehaviour
         ObjectPlayerOne.DeactivateAllFaces();
         ObjectPlayerTwo.DeactivateAllFaces();
         GenerateSequenece();
-        for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
-        {
-            if (i >= _partsInSequence)
-            {
-                Sequence.transform.GetChild(i).gameObject.SetActive(false);
-            }
-            else
-            {
-                Sequence.transform.GetChild(i).gameObject.SetActive(true);
-
-
-            }
-        }
+        ShowPartInSequnce();
         _isBlocked = false;
     }
 
+    private IEnumerator MoveSequence()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            Sequence.transform.position-=new Vector3(0.1f,0,0);
+            yield return null;
+
+        }
+        Destroy(Sequence.transform.GetChild(0).gameObject);
+        PuzzleFace part = Instantiate(NewPart,new Vector3(0,0,0),Quaternion.identity);
+        part.transform.parent = Sequence.transform;
+        part.transform.position=new Vector3(0,0,0);
+    }
     //Wrong
     private void NotGuessed()
     {
@@ -469,23 +487,14 @@ public class GameFlow : MonoBehaviour
         for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
         {
             Sequence.transform.GetChild(i).GetComponent<PuzzleFace>().TurnOffAll();
-            if (i >= _partsInSequence)
-            {
-                Sequence.transform.GetChild(i).gameObject.SetActive(false);
-            }
-            else
-            {
-                Sequence.transform.GetChild(i).gameObject.SetActive(true);
-
-
-            }
+            
         }
         Debug.Log("wrong");
         Score -= 50;
         _currentPart = 0;
-
         SoundManager.PlaySound("Wrong");
         StartCoroutine(Clear());
+        ShowPartInSequnce();
 
 
     }
