@@ -10,7 +10,7 @@ public class ArduinoButtons : MonoBehaviour {
 
     public string comm;
     public bool started;
-
+    private KeyCode _pressedButton;
     public bool btn0KeyDown = false;
     public bool btn1KeyDown = false;
     public bool btn2KeyDown = false;
@@ -37,7 +37,7 @@ public class ArduinoButtons : MonoBehaviour {
     public string openMssg;
     public string btnMssg;
 
-
+    public GameFlow GF;
 
 	// Use this for initialization
 	void Start () {
@@ -52,7 +52,16 @@ public class ArduinoButtons : MonoBehaviour {
         //Arduino2.Write("a");
 		
 	}
-	
+	public bool GetButton(KeyCode key)
+
+    {
+        Debug.Log(_pressedButton);
+        if (_pressedButton==key)
+        {
+            return true;
+        }
+        return false;
+    }
 	// Update is called once per frame
 	void Update () {
 
@@ -97,6 +106,10 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn0KeyDown = false;
                     btn0Pressed = true;
+                    GF.AddToArray(0);
+                    GF.Check(KeyCode.Q);
+                    _pressedButton = KeyCode.Q;
+                    Debug.Log("sdsad");
                 }
                 else if (btn0Pressed == false)
                 {
@@ -106,8 +119,13 @@ public class ArduinoButtons : MonoBehaviour {
             case 1:
                 if (btn1KeyDown == true)
                 {
+
                     btn1KeyDown = false;
                     btn1Pressed = true;
+                    GF.AddToArray(1);
+                    GF.Check(KeyCode.W);
+                    _pressedButton = KeyCode.W;
+
                 }
                 else if (btn1Pressed == false)
                 {
@@ -119,6 +137,10 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn2KeyDown = false;
                     btn2Pressed = true;
+                    GF.AddToArray(2);
+                    GF.Check(KeyCode.E);
+                    _pressedButton = KeyCode.E;
+
                 }
                 else if (btn2Pressed == false)
                 {
@@ -130,6 +152,10 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn3KeyDown = false;
                     btn3Pressed = true;
+                    GF.AddToArray(3);
+                    GF.Check(KeyCode.R);
+                    _pressedButton = KeyCode.R;
+
                 }
                 else if (btn3Pressed == false)
                 {
@@ -141,6 +167,10 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn4KeyDown = false;
                     btn4Pressed = true;
+                    GF.AddToArray(4);
+                    GF.Check(KeyCode.T);
+                    _pressedButton = KeyCode.T;
+
                 }
                 else if (btn4Pressed == false)
                 {
@@ -152,6 +182,10 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn5KeyDown = false;
                     btn5Pressed = true;
+                    GF.AddToArray(5);
+                    GF.Check(KeyCode.Y);
+                    _pressedButton = KeyCode.Y;
+
                 }
                 else if (btn5Pressed == false)
                 {
@@ -172,7 +206,8 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn0Pressed = false;
                     btn0KeyUp = true;
-
+                    GF.RemoveFromArray(0);
+                    GF.Check(KeyCode.Q);
                 }
                 else
                 {
@@ -184,7 +219,8 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn1Pressed = false;
                     btn1KeyUp = true;
-
+                    GF.RemoveFromArray(1);
+                    GF.Check(KeyCode.W);
                 }
                 else
                 {
@@ -196,7 +232,8 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn2Pressed = false;
                     btn2KeyUp = true;
-
+                    GF.RemoveFromArray(2);
+                    GF.Check(KeyCode.E);
                 }
                 else
                 {
@@ -208,7 +245,8 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn3Pressed = false;
                     btn3KeyUp = true;
-
+                    GF.RemoveFromArray(3);
+                    GF.Check(KeyCode.R);
                 }
                 else
                 {
@@ -220,7 +258,8 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn4Pressed = false;
                     btn4KeyUp = true;
-
+                    GF.RemoveFromArray(4);
+                    GF.Check(KeyCode.T);
                 }
                 else
                 {
@@ -232,7 +271,8 @@ public class ArduinoButtons : MonoBehaviour {
                 {
                     btn5Pressed = false;
                     btn5KeyUp = true;
-
+                    GF.RemoveFromArray(5);
+                    GF.Check(KeyCode.Y);
                 }
                 else
                 {
