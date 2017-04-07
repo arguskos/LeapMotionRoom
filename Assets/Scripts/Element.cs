@@ -58,12 +58,14 @@ public class Element : MonoBehaviour
         Id = id;
         _originalcolor = GetComponent<Renderer>().material.color;
         _delay = 0.1f + (Id * 0.1f);
-        _scale = transform.localScale;
+        _scale = new Vector3(0.5f,0.5f,1);
+        DeffaultOff();
+
     }
     // Use this for initialization
     void Start()
     {
-        DeffaultOff();
+
     }
 
     // Update is called once per frame

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ public class GameFlow : MonoBehaviour
     public GameObject TXTScore;
     public int Score;
 
-
+    private List<List<PuzzleFace>> _sequence = new List<List<PuzzleFace>>();
 
     //private List<PuzzleFace> FacesPlayerOne = new List<PuzzleFace>();
     //private List<PuzzleFace> FacesPlayerTwo = new List<PuzzleFace>();
@@ -33,11 +34,12 @@ public class GameFlow : MonoBehaviour
     public PlayerObject ObjectPlayerTwo;
     public PuzzleFace PreviewPie;
     public PuzzleFace DebugPie;
-    public PuzzleFace NewPart;
+    public GameObject NewPart;
 
     public SoundManager SoundManager;
     public GameObject Sequence;
     public GameObject[] Shapes;
+
 
     [Header("Leap motion")]
     public Leap.Unity.Attachments.HandAttachments HandLeft;
@@ -49,8 +51,10 @@ public class GameFlow : MonoBehaviour
     private int _partsInSequence;
     private int _currentPart = 0;
     public int Stage { get; private set; }
-
-
+    public int[] LevelProgression;
+    public int[] Low;
+    public int[] MaxCombo;
+    public int[] High;
     private void ActivatePlayerFaces(PlayerObject player, int item)
     {
         if (ModeSubstract)
@@ -80,9 +84,10 @@ public class GameFlow : MonoBehaviour
             {
                 if (player.LastActivatedFace == -1)
                 {
-                    int rnd = Random.Range(0, player.GetFacesCount());
+
+                    int rnd = Random.Range(0, player.GetNotActivateFaces().Count);
                     Debug.Log(rnd + ": rnd" + item);
-                    player.ActivateFace(rnd, item);
+                    player.ActivateFace(player.GetNotActivateFaces()[rnd], item);
                 }
                 else
                 {
@@ -116,18 +121,65 @@ public class GameFlow : MonoBehaviour
         ObjectPlayerTwo.Init();
         HandRight.Palm = ObjectPlayerOne.transform;
         HandLeft.Palm = ObjectPlayerTwo.transform;
-        _partsInSequence = ObjectPlayerOne._faces.Count;
+        _sequence.Clear();
+        var temp = (ObjectPlayerOne.GetFaces().Concat(ObjectPlayerTwo.GetFaces())).ToList();
+        Debug.Log(temp.Count + "tocunter");
+        int facesCovered = 0;
+        while (temp.Count > 0)
+        {
+            Debug.Log(facesCovered + "faces covered");
+            if (temp.Count() == 1)
+            {
+
+
+                _sequence.Add(new List<PuzzleFace>());
+                _sequence[_sequence.Count - 1].Add(temp[0]);
+                temp.Remove(temp[0]);
+                facesCovered++;
+            }
+            else
+            {
+                int rnd = Random.Range(0, LevelProgression[Stage]);
+                facesCovered += rnd;
+                if (rnd == 0)
+                {
+                    int rndFace = Random.Range(0, temp.Count());
+                    PuzzleFace tempFace = temp[rndFace];
+                    _sequence.Add(new List<PuzzleFace>());
+                    _sequence[_sequence.Count - 1].Add(tempFace);
+                    temp.Remove(tempFace);
+                    facesCovered++;
+                }
+                if (rnd == 1)
+                {
+                    int rndFace = Random.Range(0, temp.Count());
+                    PuzzleFace tempFace = temp[rndFace];
+                    _sequence.Add(new List<PuzzleFace>());
+                    _sequence[_sequence.Count - 1].Add(tempFace);
+                    temp.Remove(tempFace);
+                    facesCovered++;
+                    rndFace = Random.Range(0, temp.Count());
+                    tempFace = temp[rndFace];
+                    _sequence[_sequence.Count - 1].Add(tempFace);
+                    temp.Remove(tempFace);
+                    facesCovered++;
+                }
+            }
+        }
+        Debug.Log("lol" + _sequence.Count + " " + temp.Count);
+        _partsInSequence = _sequence.Count;
 
     }
     void Start()
     {
         Stage = 0;
         SpawnCurrent();
-        GenerateSequenece();
         Score = 0;
+        GenerateSequenece();
+
+        StartCoroutine(Clear());
 
         TXTScore.GetComponent<Text>().text = Score.ToString();
-        NotGuessed();
         ShowPartInSequnce();
 
     }
@@ -248,119 +300,152 @@ public class GameFlow : MonoBehaviour
 
     public void GenerateSequenece()
     {
-        Debug.Log("generAting");
-        for (int i = 0; i < NumbersToGuess; i++)
+      
+        Debug.Log(_currentPart+" currpart");
+        List<int > generated = new List<int>();
+      
+        foreach (var face in _sequence[_currentPart])
         {
-            int rnd = Random.Range(0, MaxElements);
-            while (ArrayToGuess.Contains(rnd))
+            int high = High[Stage];
+            if (_sequence.Count > 1)
             {
-                rnd = Random.Range(0, MaxElements);
-
+                high = MaxCombo[Stage];
             }
+            for (int i = 0; i < Random.Range(Low[Stage],high); i++)
+            {
+                int rnd = Random.Range(0, MaxElements);
 
-            ArrayToGuess.Add(rnd);
+                while (generated.Contains(rnd))
+                {
+                    rnd = Random.Range(0, MaxElements);
+                }
+                generated.Add(rnd);
+                DebugPie.ActivatePiece(rnd);
+                ArrayToGuess.Add(rnd);
+                face.ActivatePiece(rnd);
+                Debug.Log(rnd);
+            }   
+        }
+        string outer = "";
+        foreach (var num in ArrayToGuess)
+        {
+            outer += num.ToString();
 
         }
+        Debug.Log(outer+ " SEQUENCE");
+        //Debug.Log("generAting");
+        //for (int i = 0; i < NumbersToGuess; i++)
+        //{
+        //    int rnd = Random.Range(0, MaxElements);
+        //    while (ArrayToGuess.Contains(rnd))
+        //    {
+        //        rnd = Random.Range(0, MaxElements);
+
+        //    }
+
+        //    ArrayToGuess.Add(rnd);
+
+        //}
 
 
 
-        if (ModeSubstract)
-        {
-            foreach (var item in ArrayToGuess)
-            {
-                print(item);
-                DebugPie.ActivatePiece(item);
-            }
-            int rnd = Random.Range(2, MaxElements);
-            List<int> temp = new List<int>();
-            for (int i = 0; i < rnd; i++)
-            {
-                if (ArrayToGuess.Count > i)
-                {
-                    temp.Add(ArrayToGuess[i]);
-                    ActivatePlayerFaces(ObjectPlayerOne, ArrayToGuess[i]);
-                }
-                else
-                {
-                    int r = Random.Range(0, MaxElements);
-                    temp.Add(r);
-                    ActivatePlayerFaces(ObjectPlayerOne, r);
-                }
-            }
+        //if (ModeSubstract)
+        //{
+        //    foreach (var item in ArrayToGuess)
+        //    {
+        //        print(item);
+        //        DebugPie.ActivatePiece(item);
+        //    }
+        //    int rnd = Random.Range(2, MaxElements);
+        //    List<int> temp = new List<int>();
+        //    for (int i = 0; i < rnd; i++)
+        //    {
+        //        if (ArrayToGuess.Count > i)
+        //        {
+        //            temp.Add(ArrayToGuess[i]);
+        //            ActivatePlayerFaces(ObjectPlayerOne, ArrayToGuess[i]);
+        //        }
+        //        else
+        //        {
+        //            int r = Random.Range(0, MaxElements);
+        //            temp.Add(r);
+        //            ActivatePlayerFaces(ObjectPlayerOne, r);
+        //        }
+        //    }
 
 
-            var firstNotSecond = ArrayToGuess.Except(temp).ToList();
-            var secondNotFirst = temp.Except(ArrayToGuess).ToList();
-            foreach (var num in secondNotFirst)
-            {
-                ActivatePlayerFaces(ObjectPlayerTwo, num);
+        //    var firstNotSecond = ArrayToGuess.Except(temp).ToList();
+        //    var secondNotFirst = temp.Except(ArrayToGuess).ToList();
+        //    foreach (var num in secondNotFirst)
+        //    {
+        //        ActivatePlayerFaces(ObjectPlayerTwo, num);
 
-            }
-            string first = "";
-            string second = "";
-            foreach (var num in firstNotSecond)
-            {
+        //    }
+        //    string first = "";
+        //    string second = "";
+        //    foreach (var num in firstNotSecond)
+        //    {
 
-                first += num.ToString();
+        //        first += num.ToString();
 
-            }
-            foreach (var num in secondNotFirst)
-            {
+        //    }
+        //    foreach (var num in secondNotFirst)
+        //    {
 
-                second += num.ToString();
+        //        second += num.ToString();
 
-            }
-            Debug.Log("first: " + first + "\nsecond: " + second);
+        //    }
+        //    Debug.Log("first: " + first + "\nsecond: " + second);
 
-        }
-        else
-        {
-            foreach (var item in ArrayToGuess)
-            {
-                print(item);
-                DebugPie.ActivatePiece(item);
-                if (EachPlayerGetsPiece)
-                {
-                    if (ObjectPlayerOne.IsActive == ObjectPlayerTwo.IsActive)
-                    {
-                        if (Random.Range(0, 2) == 0)
-                        {
-                            ActivatePlayerFaces(ObjectPlayerOne, item);
-                        }
-                        else
-                        {
-                            ActivatePlayerFaces(ObjectPlayerTwo, item);
-
-
-                        }
-                    }
-                    else if (!ObjectPlayerOne.IsActive)
-                    {
-                        ActivatePlayerFaces(ObjectPlayerOne, item);
-
-                    }
-                    else if (!ObjectPlayerTwo.IsActive)
-                    {
-                        ActivatePlayerFaces(ObjectPlayerTwo, item);
-
-                    }
-                }
-                else
-                {
-                    if (Random.Range(0, 2) == 0)
-                    {
-                        ActivatePlayerFaces(ObjectPlayerOne, item);
-                    }
-                    else
-                    {
-                        ActivatePlayerFaces(ObjectPlayerTwo, item);
-                    }
+        //}
+        //else
+        //{
+        //    foreach (var item in ArrayToGuess)
+        //    {
+        //        print(item);
+        //        DebugPie.ActivatePiece(item);
+        //        if (EachPlayerGetsPiece)
+        //        {
+        //            if (ObjectPlayerOne.IsActive == ObjectPlayerTwo.IsActive)
+        //            {
+        //                if (Random.Range(0, 2) == 0)
+        //                {
+        //                    ActivatePlayerFaces(ObjectPlayerOne, item);
+        //                }
+        //                else
+        //                {
+        //                    ActivatePlayerFaces(ObjectPlayerTwo, item);
 
 
+        //                }
+        //            }
+        //            else if (!ObjectPlayerOne.IsActive)
+        //            {
+        //                ActivatePlayerFaces(ObjectPlayerOne, item);
 
-                }
-            }
-        }
+        //            }
+        //            else if (!ObjectPlayerTwo.IsActive)
+        //            {
+        //                ActivatePlayerFaces(ObjectPlayerTwo, item);
+
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (Random.Range(0, 2) == 0)
+        //            {
+        //                ActivatePlayerFaces(ObjectPlayerOne, item);
+        //            }
+        //            else
+        //            {
+        //                ActivatePlayerFaces(ObjectPlayerTwo, item);
+        //            }
+
+
+
+        //        }
+        //    }
+        //}
     }
 
     public void Check(KeyCode key)
@@ -378,8 +463,7 @@ public class GameFlow : MonoBehaviour
 
 
         //}
-        Debug.Log("num" + ArrayInputed.Count + ":" + NumbersToGuess);
-        if (ArrayInputed.Count == NumbersToGuess && !_isChecking)
+        if (!_isChecking)
         {
             _isChecking = true;
             StartCoroutine(SlowChecker(key, ArrayInputed, ArrayToGuess));
@@ -389,11 +473,11 @@ public class GameFlow : MonoBehaviour
     private IEnumerator SlowChecker(KeyCode key, List<int> input, List<int> guess)
     {
         //sleeps for two seconds then check
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(2.0f);
         input.Sort();
         guess.Sort();
         Debug.Log(Input.GetKey(key));
-        if ((Input.GetKey(key) ||  script.GetButton(key)) &&  ArrayInputed.Count == NumbersToGuess)
+        if ((Input.GetKey(key)) )
         {
             if (input.SequenceEqual(guess))
             {
@@ -424,8 +508,12 @@ public class GameFlow : MonoBehaviour
             }
         }
         _currentPart++;
-       
-        if (_currentPart == _partsInSequence)
+        if (_currentPart > 4)
+
+        {
+            StartCoroutine(MoveSequence());
+        }
+        if (_currentPart== _partsInSequence)
         {
             Stage++;
             _currentPart = 0;
@@ -436,13 +524,9 @@ public class GameFlow : MonoBehaviour
             }
 
         }
-        NumbersToGuess = Random.Range(1,4);
+        NumbersToGuess = Random.Range(1, 3);
         StartCoroutine(Clear());
-        if (_currentPart > 1)
 
-        {
-            StartCoroutine(MoveSequence());
-        }
         _isBlocked = true;
     }
 
@@ -486,16 +570,21 @@ public class GameFlow : MonoBehaviour
 
     private IEnumerator MoveSequence()
     {
+        Destroy(Sequence.transform.GetChild(0).gameObject);
+        GameObject part = Instantiate(NewPart.gameObject);
+
+        part.transform.parent = Sequence.transform;
+        part.transform.position = Sequence.transform.GetChild(5).gameObject.transform.position + new Vector3(0.5f, 0, 0);
+        part.transform.localScale = Sequence.transform.GetChild(5).gameObject.transform.localScale;
+        part.transform.rotation = Sequence.transform.GetChild(5).gameObject.transform.rotation;
+
         for (int i = 0; i < 10; i++)
         {
-            Sequence.transform.position-=new Vector3(0.1f,0,0);
+            Sequence.transform.position -= new Vector3(0.05f, 0, 0);
             yield return null;
 
         }
-        Destroy(Sequence.transform.GetChild(0).gameObject);
-        PuzzleFace part = Instantiate(NewPart,new Vector3(0,0,0),Quaternion.identity);
-        part.transform.parent = Sequence.transform;
-        part.transform.position=new Vector3(0,0,0);
+
     }
     //Wrong
     private void NotGuessed()
@@ -504,7 +593,7 @@ public class GameFlow : MonoBehaviour
         for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
         {
             Sequence.transform.GetChild(i).GetComponent<PuzzleFace>().TurnOffAll();
-            
+
         }
         Debug.Log("wrong");
         Score -= 50;
