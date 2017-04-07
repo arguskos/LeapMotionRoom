@@ -159,22 +159,22 @@ public class GameFlow : MonoBehaviour
         //When a shape is correct
         if (Input.GetKeyDown(KeyCode.U))
         {
-            TXTMessage.GetComponent<BlinkText>().TriggerText("Correct", 1.0f);
-            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+1", 1.0f); //Over here +1 should change to the amount incremented
+            TXTMessage.GetComponent<BlinkText>().TriggerText("Correct", 1.0f,true);
+            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+1", 1.5f, false); //Over here +1 should change to the amount incremented
         }
 
         //When a shape is Wrong
         if (Input.GetKeyDown(KeyCode.I))
         {
-            TXTMessage.GetComponent<BlinkText>().TriggerText("Wrong", 1.0f);
-            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("-1", 1.0f); //If we're gonna use minus points as punishment use this
+            TXTMessage.GetComponent<BlinkText>().TriggerText("Wrong", 1.0f, true);
+            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("-1", 1.5f, false); //If we're gonna use minus points as punishment use this
         }
 
         //When a shape is shifting
         if (Input.GetKeyDown(KeyCode.O))
         {
-            TXTMessage.GetComponent<BlinkText>().TriggerText("Next Level", 1.0f);
-            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+10", 1.0f); //Maybe add bonus points when a shape is complete?
+            TXTMessage.GetComponent<BlinkText>().TriggerText("Next Level", 2.0f, true);
+            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+10", 1.5f, false); //Maybe add bonus points when a shape is complete?
         }
         //---------
 
