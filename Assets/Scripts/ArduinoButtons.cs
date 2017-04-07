@@ -11,6 +11,7 @@ public class ArduinoButtons : MonoBehaviour {
     public SoundManager SoundManager;
 
     public string comm;
+    public string comm2;
     public bool started;
     private KeyCode _pressedButton;
     public bool btn0KeyDown = false;
@@ -43,15 +44,15 @@ public class ArduinoButtons : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Arduino1 = new SerialPort(comm, 115200);
-        Arduino1.ReadTimeout = 25;
-        Arduino1.Open();
-        Arduino1.Write("a");
+        //Arduino1 = new SerialPort(comm, 115200);
+        //Arduino1.ReadTimeout = 25;
+        //Arduino1.Open();
+        //Arduino1.Write("a");
 
-        //Arduino2 = new SerialPort("COM4", 115200);
-        //Arduino2.ReadTimeout = 25;
-        //Arduino2.Open();
-        //Arduino2.Write("a");
+        Arduino2 = new SerialPort(comm2, 115200);
+        Arduino2.ReadTimeout = 25;
+        Arduino2.Open();
+        Arduino2.Write("a");
 		
 	}
 	public bool GetButton(KeyCode key)
