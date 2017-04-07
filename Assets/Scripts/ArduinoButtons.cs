@@ -8,6 +8,8 @@ public class ArduinoButtons : MonoBehaviour {
     new SerialPort Arduino1;
     new SerialPort Arduino2;
 
+    public SoundManager SoundManager;
+
     public string comm;
     public bool started;
     private KeyCode _pressedButton;
@@ -109,6 +111,7 @@ public class ArduinoButtons : MonoBehaviour {
                     GF.AddToArray(0);
                     GF.Check(KeyCode.Q);
                     _pressedButton = KeyCode.Q;
+                    SoundManager.PlaySound("Selection");
                     Debug.Log("sdsad");
                 }
                 else if (btn0Pressed == false)
@@ -125,6 +128,7 @@ public class ArduinoButtons : MonoBehaviour {
                     GF.AddToArray(1);
                     GF.Check(KeyCode.W);
                     _pressedButton = KeyCode.W;
+                    SoundManager.PlaySound("Selection");
 
                 }
                 else if (btn1Pressed == false)
@@ -140,6 +144,7 @@ public class ArduinoButtons : MonoBehaviour {
                     GF.AddToArray(2);
                     GF.Check(KeyCode.E);
                     _pressedButton = KeyCode.E;
+                    SoundManager.PlaySound("Selection");
 
                 }
                 else if (btn2Pressed == false)
@@ -155,6 +160,7 @@ public class ArduinoButtons : MonoBehaviour {
                     GF.AddToArray(3);
                     GF.Check(KeyCode.R);
                     _pressedButton = KeyCode.R;
+                    SoundManager.PlaySound("Selection");
 
                 }
                 else if (btn3Pressed == false)
@@ -170,6 +176,7 @@ public class ArduinoButtons : MonoBehaviour {
                     GF.AddToArray(4);
                     GF.Check(KeyCode.T);
                     _pressedButton = KeyCode.T;
+                    SoundManager.PlaySound("Selection");
 
                 }
                 else if (btn4Pressed == false)
@@ -185,6 +192,7 @@ public class ArduinoButtons : MonoBehaviour {
                     GF.AddToArray(5);
                     GF.Check(KeyCode.Y);
                     _pressedButton = KeyCode.Y;
+                    SoundManager.PlaySound("Selection");
 
                 }
                 else if (btn5Pressed == false)

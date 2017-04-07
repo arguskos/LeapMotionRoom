@@ -115,6 +115,7 @@ public class GameFlow : MonoBehaviour
         HandRight.Palm = ObjectPlayerOne.transform;
         HandLeft.Palm = ObjectPlayerTwo.transform;
         _partsInSequence = ObjectPlayerOne._faces.Count;
+        SoundManager.PlaySound("Progress_002");
 
     }
     void Start()
@@ -156,10 +157,10 @@ public class GameFlow : MonoBehaviour
         //Play selection sound on keydown
         if (!_isBlocked)
         {
-            if (Input.anyKeyDown)
-            {
-                SoundManager.PlaySound("Selection");
-            }
+            //if (Input.anyKeyDown)
+            //{
+            //    SoundManager.PlaySound("Selection");
+            //}
 
             //Add number to inputted array if it isn't full yet
             if (ArrayInputed.Count <= NumbersToGuess)
@@ -423,7 +424,7 @@ public class GameFlow : MonoBehaviour
         Debug.Log("right");
         Score += 150;
 
-        SoundManager.PlaySound("Progress_002");
+        SoundManager.PlaySound("Progress_001");
 
         for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
         {
@@ -498,6 +499,7 @@ public class GameFlow : MonoBehaviour
             }
         }
         Debug.Log("wrong");
+        SoundManager.PlaySound("Error");
         Score -= 50;
         _currentPart = 0;
 
