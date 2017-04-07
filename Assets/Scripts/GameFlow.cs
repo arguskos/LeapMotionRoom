@@ -17,6 +17,8 @@ public class GameFlow : MonoBehaviour
     public bool EachPlayerGetsPiece = true;
     public bool ModeSubstract = false;
 
+    public ArduinoButtons script;
+
     [Header("UI")]
     public GameObject TXTScore;
     public int Score;
@@ -121,7 +123,7 @@ public class GameFlow : MonoBehaviour
         SpawnCurrent();
         GenerateSequenece();
         Score = 0;
-     
+
         TXTScore.GetComponent<Text>().text = Score.ToString();
         NotGuessed();
         for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
@@ -138,7 +140,16 @@ public class GameFlow : MonoBehaviour
             }
         }
     }
+    public void AddToArray(int i)
+    {
+        ArrayInputed.Add(i);
 
+    }
+
+    public void RemoveFromArray(int i)
+    {
+        ArrayInputed.Remove(i);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -376,6 +387,7 @@ public class GameFlow : MonoBehaviour
 
 
         //}
+        Debug.Log("num" + ArrayInputed.Count + ":" + NumbersToGuess);
         if (ArrayInputed.Count == NumbersToGuess && !_isChecking)
         {
             _isChecking = true;
@@ -390,7 +402,7 @@ public class GameFlow : MonoBehaviour
         input.Sort();
         guess.Sort();
         Debug.Log(Input.GetKey(key));
-        if (Input.GetKey(key)&& ArrayInputed.Count == NumbersToGuess)
+        if ((Input.GetKey(key) ||  script.GetButton(key)) &&  ArrayInputed.Count == NumbersToGuess)
         {
             if (input.SequenceEqual(guess))
             {
