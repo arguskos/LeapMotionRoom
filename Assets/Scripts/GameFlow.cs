@@ -184,7 +184,7 @@ public class GameFlow : MonoBehaviour
 
         StartCoroutine(Clear());
 
-        TXTScore.GetComponent<Text>().text = Score.ToString();
+        TXTScore.GetComponent<Text>().text = "0";
         ShowPartInSequnce();
 
     }
@@ -206,22 +206,17 @@ public class GameFlow : MonoBehaviour
         //When a shape is correct
         if (Input.GetKeyDown(KeyCode.U))
         {
-            TXTMessage.GetComponent<BlinkText>().TriggerText("Correct", 1.0f,true);
-            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+1", 1.5f, false); //Over here +1 should change to the amount incremented
         }
 
         //When a shape is Wrong
         if (Input.GetKeyDown(KeyCode.I))
         {
-            TXTMessage.GetComponent<BlinkText>().TriggerText("Wrong", 1.0f, true);
-            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("-1", 1.5f, false); //If we're gonna use minus points as punishment use this
-        }
+            }
 
         //When a shape is shifting
         if (Input.GetKeyDown(KeyCode.O))
         {
-            TXTMessage.GetComponent<BlinkText>().TriggerText("Next Level", 2.0f, true);
-            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+10", 1.5f, false); //Maybe add bonus points when a shape is complete?
+       //Maybe add bonus points when a shape is complete?
         }
         //---------
 
@@ -502,7 +497,7 @@ public class GameFlow : MonoBehaviour
     private IEnumerator SlowChecker(KeyCode key, List<int> input, List<int> guess)
     {
         //sleeps for two seconds then check
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.5f);
         input.Sort();
         guess.Sort();
         Debug.Log(Input.GetKey(key));
@@ -526,6 +521,9 @@ public class GameFlow : MonoBehaviour
     {
         Debug.Log("right");
         Score += 150;
+        TXTMessage.GetComponent<BlinkText>().TriggerText("Correct", 1.0f, true);
+
+        TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+150", 1.5f, false); //Over here +1 should change to the amount incremented
 
         SoundManager.PlaySound("Progress_001");
 
@@ -547,6 +545,9 @@ public class GameFlow : MonoBehaviour
             Stage++;
             _currentPart = 0;
             SpawnCurrent();
+            TXTMessage.GetComponent<BlinkText>().TriggerText("Next Level", 2.0f, true);
+            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+200", 1.5f, false);
+            Score += 200;
             for (int i = 0; i < Sequence.transform.GetChild(_currentPart).GetComponent<PuzzleFace>().ElementObjects.Count; i++)
             {
                 Sequence.transform.GetChild(i).GetComponent<PuzzleFace>().TurnOffAll();
@@ -625,6 +626,9 @@ public class GameFlow : MonoBehaviour
 
         }
         Debug.Log("wrong");
+        TXTMessage.GetComponent<BlinkText>().TriggerText("Wrong", 1.0f, true);
+        TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("-50", 1.5f, false); //If we're gonna use minus points as punishment use this
+
         SoundManager.PlaySound("Error");
         Score -= 50;
         _currentPart = 0;

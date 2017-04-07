@@ -136,7 +136,7 @@ public class Server : MonoBehaviour
             float t = 0;
             float.TryParse(www.data, NumberStyles.Float, null, out t);
             int time = ((int)t);
-            RoomTimer.text = time.ToString();
+            RoomTimer.text = (Math.Floor(time/60.0f).ToString()+":"+time%60);
             //Debug.Log(time);
             if (time == -1)
             {
