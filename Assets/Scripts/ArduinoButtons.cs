@@ -44,15 +44,15 @@ public class ArduinoButtons : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //Arduino1 = new SerialPort(comm, 115200);
-        //Arduino1.ReadTimeout = 25;
-        //Arduino1.Open();
-        //Arduino1.Write("a");
+        Arduino1 = new SerialPort(comm, 115200);
+        Arduino1.ReadTimeout = 25;
+        Arduino1.Open();
+        Arduino1.Write("a");
 
-        Arduino2 = new SerialPort(comm2, 115200);
-        Arduino2.ReadTimeout = 25;
-        Arduino2.Open();
-        Arduino2.Write("a");
+        //Arduino2 = new SerialPort(comm2, 115200);
+        //Arduino2.ReadTimeout = 25;
+        //Arduino2.Open();
+        //Arduino2.Write("a");
 		
 	}
 	public bool GetButton(KeyCode key)
