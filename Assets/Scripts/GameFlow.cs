@@ -22,9 +22,13 @@ public class GameFlow : MonoBehaviour
 
     [Header("UI")]
     public GameObject TXTScore;
+    public GameObject TXTMessage;
+    public GameObject TXTScoreIncrement;
     public int Score;
 
     private List<List<PuzzleFace>> _sequence = new List<List<PuzzleFace>>();
+
+
 
     //private List<PuzzleFace> FacesPlayerOne = new List<PuzzleFace>();
     //private List<PuzzleFace> FacesPlayerTwo = new List<PuzzleFace>();
@@ -197,6 +201,30 @@ public class GameFlow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //---------
+        //Over here an example of the preferred use of the UI feedback:
+        //When a shape is correct
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            TXTMessage.GetComponent<BlinkText>().TriggerText("Correct", 1.0f,true);
+            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+1", 1.5f, false); //Over here +1 should change to the amount incremented
+        }
+
+        //When a shape is Wrong
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            TXTMessage.GetComponent<BlinkText>().TriggerText("Wrong", 1.0f, true);
+            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("-1", 1.5f, false); //If we're gonna use minus points as punishment use this
+        }
+
+        //When a shape is shifting
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            TXTMessage.GetComponent<BlinkText>().TriggerText("Next Level", 2.0f, true);
+            TXTScoreIncrement.GetComponent<BlinkText>().TriggerText("+10", 1.5f, false); //Maybe add bonus points when a shape is complete?
+        }
+        //---------
+
         //Play selection sound on keydown
         if (!_isBlocked)
         {
